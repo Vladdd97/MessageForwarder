@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MessageForwarder</string>
+    <string name="cancelButton">cancel</string>
+    <string name="deleteButton">delete</string>
+    <string name="defaultText">defaultText</string>
+
 </resources>
