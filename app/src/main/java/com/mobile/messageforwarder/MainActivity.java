@@ -3,6 +3,7 @@ package com.mobile.messageforwarder;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobile.messageforwarder.util.ActivityRequestCode;
 import com.mobile.messageforwarder.util.NumberType;
@@ -21,9 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button fromNumbersButton;
-    private Button toNumbersButton;
-
+    private TabLayout numberTypeTabLayout;
     private NumberType chosenNumberType;
 
     @Override
@@ -31,29 +31,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initData();
-        //NumberUtil.deleteAllNumbers();
-//        NumberUtil.saveFromNumber("fromNumber_1" + NumberUtil.SEPARATOR + "fromNumber_2");
-//        NumberUtil.saveToNumber("toNumber_1" + NumberUtil.SEPARATOR + "toNumber_2");
     }
 
     public void initData() {
-        fromNumbersButton = findViewById(R.id.fromNumbersButton);
-        toNumbersButton = findViewById(R.id.toNumbersButton);
-
-        chooseNumberType(NumberType.TO_NUMBER);
+        chosenNumberType = NumberType.FROM_NUMBER;
         showAllNumbers(chosenNumberType);
-    }
 
-    public void chooseNumberType(NumberType numberType) {
+        numberTypeTabLayout = findViewById(R.id.numberTypeTabLayout);
+        numberTypeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (numberTypeTabLayout.getSelectedTabPosition() == 0) {
+                    chosenNumberType = NumberType.FROM_NUMBER;
+                    Log.i("MainActivity", "fromNumbers=[" + NumberUtil.getNumbers(chosenNumberType) + "]");
+                } else {
+                    chosenNumberType = NumberType.TO_NUMBER;
+                    Log.i("MainActivity", "toNumbers=[" + NumberUtil.getNumbers(chosenNumberType) + "]");
+                }
+                showAllNumbers(chosenNumberType);
+            }
 
-        chosenNumberType = numberType;
-        if (numberType.equals(NumberType.FROM_NUMBER)) {
-            fromNumbersButton.setBackgroundColor(getResources().getColor(R.color.enabledButton));
-            toNumbersButton.setBackgroundColor(getResources().getColor(R.color.disabledButton));
-        } else {
-            fromNumbersButton.setBackgroundColor(getResources().getColor(R.color.disabledButton));
-            toNumbersButton.setBackgroundColor(getResources().getColor(R.color.enabledButton));
-        }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 
@@ -65,26 +72,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onClick_fromNumbersButton(View v) {
-        chooseNumberType(NumberType.FROM_NUMBER);
-        showAllNumbers(chosenNumberType);
-
-        Log.i("MFBroadcastReceiver", "fromNumbers=[" + NumberUtil.getNumbers(chosenNumberType) + "]");
-        showAllNumbers(chosenNumberType);
-    }
-
-
-    public void onClick_toNumbersButton(View v) {
-        chooseNumberType(NumberType.TO_NUMBER);
-        showAllNumbers(chosenNumberType);
-
-        Log.i("MFBroadcastReceiver", "fromNumbers=[" + NumberUtil.getNumbers(NumberType.TO_NUMBER) + "]");
-        showAllNumbers(NumberType.TO_NUMBER);
-
-    }
 
     public void onClick_addButton(View v) {
         Intent addNumberIntent = new Intent(MainActivity.this, AddNumberActivity.class);
+        addNumberIntent.putExtra(NumberType.class.getName(), chosenNumberType.toString());
         startActivityForResult(addNumberIntent, ActivityRequestCode.ADD_NUMBER_ACTIVITY_CODE);
     }
 
@@ -105,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPopup(final String number) {
-        Log.i("MFBroadcastReceiver", "selectedNumber=[" + number + "]");
+        Log.i("MainActivity", "selectedNumber=[" + number + "]");
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_delete_number);
         TextView popupTextView = dialog.findViewById(R.id.popupTextView);
@@ -117,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("MFBroadcastReceiver", "Cancel button on popup was clicked");
+                Log.i("MainActivity", "Cancel button on popup was clicked");
                 dialog.dismiss();
             }
         });
@@ -126,8 +117,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 NumberUtil.deleteNumber(chosenNumberType, number);
-                Log.i("MFBroadcastReceiver", "deletedNumber=[" + number + "], numberType=[" + NumberType.FROM_NUMBER.toString() + "]");
+                Log.i("MainActivity", "deletedNumber=[" + number + "], numberType=[" + NumberType.FROM_NUMBER.toString() + "]");
                 dialog.dismiss();
+                Toast.makeText(getBaseContext(),"Number [" + number + "] of type ["
+                        + chosenNumberType.toString() + "] was deleted.",Toast.LENGTH_LONG).show();
+
                 showAllNumbers(chosenNumberType);
             }
         });

@@ -2,6 +2,13 @@
     <string name="app_name">MessageForwarder</string>
     <string name="cancelButton">cancel</string>
     <string name="deleteButton">delete</string>
+    <string name="addButton">add</string>
+    <string name="backButton">back</string>
+    <string name="toNumbersButton">to numbers</string>
+    <string name="fromNumbersButton">from numbers</string>
+    <string name="saveButton">save</string>
     <string name="defaultText">defaultText</string>
+    <string name="infoText">Type the number</string>
+
 
 </resources>

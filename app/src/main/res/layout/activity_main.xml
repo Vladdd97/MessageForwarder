@@ -5,33 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/fromNumbersButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onClick_fromNumbersButton"
-        android:padding="5dp"
-        android:text="from numbers"
-        app:layout_constraintEnd_toStartOf="@+id/toNumbersButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/toNumbersButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="onClick_toNumbersButton"
-        android:padding="5dp"
-        android:text="to numbers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fromNumbersButton"
-        app:layout_constraintTop_toTopOf="parent" />
+    
 
     <ListView
         android:id="@+id/numbersListView"
@@ -50,16 +24,40 @@
 
     </ListView>
 
-    <Button
+    <ImageView
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
-        android:layout_marginRight="27dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
+        android:background="#FFFFFF"
+        android:contentDescription="@string/defaultText"
         android:onClick="onClick_addButton"
-        android:text="add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_circle_black_24dp" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/numberTypeTabLayout"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/fromNumberTabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fromNumbersButton" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/toNumberTabItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toNumbersButton" />
+
+    </android.support.design.widget.TabLayout>
 
 </android.support.constraint.ConstraintLayout>

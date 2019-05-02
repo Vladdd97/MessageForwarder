@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class NumberUtil {
@@ -15,31 +13,6 @@ public class NumberUtil {
 
     private NumberUtil() {
     }
-
-    public static void saveFromNumber(String number) {
-        SharedPreferences.Editor editor = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE).edit();
-        editor.putString(NumberType.FROM_NUMBER.toString(), number + SEPARATOR);
-        editor.apply();
-    }
-
-    public static void saveToNumber(String number) {
-        SharedPreferences.Editor editor = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE).edit();
-        editor.putString(NumberType.TO_NUMBER.toString(), number + SEPARATOR);
-        editor.apply();
-    }
-
-    public static List<String> getFromNumbers() {
-        SharedPreferences sharedPreferences = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE);
-        List<String> numbers = Arrays.asList(sharedPreferences.getString("fromNumbers", "no fromNumbers").split(SEPARATOR));
-        return numbers;
-    }
-
-    public static List<String> getToNumbers() {
-        SharedPreferences sharedPreferences = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE);
-        List<String> numbers = Arrays.asList(sharedPreferences.getString("toNumbers", "no toNumbers").split(SEPARATOR));
-        return numbers;
-    }
-
 
     public static void saveNumber(NumberType numberType, String number) {
         SharedPreferences sharedPreferences = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE);
@@ -63,7 +36,7 @@ public class NumberUtil {
         numberList.remove(number);
 
         // create String numbers from numberList elements using SEPARATOR
-        for (String n : numberList){
+        for (String n : numberList) {
             numbers.append(n).append(SEPARATOR);
         }
         SharedPreferences.Editor editor = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE).edit();
@@ -72,9 +45,9 @@ public class NumberUtil {
 
     }
 
-    public static void deleteAllNumbers(){
+    public static void deleteAllNumbers(NumberType numberType) {
         SharedPreferences.Editor editor = ContextProvider.getAppContext().getSharedPreferences("MFPreferences", Context.MODE_PRIVATE).edit();
-        editor.clear();
+        editor.remove(numberType.toString());
         editor.apply();
     }
 

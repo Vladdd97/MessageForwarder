@@ -1,21 +1,21 @@
 package com.mobile.messageforwarder;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobile.messageforwarder.util.NumberType;
 import com.mobile.messageforwarder.util.NumberUtil;
 
-import java.util.Arrays;
 
 public class AddNumberActivity extends AppCompatActivity {
 
-    private Spinner spinner;
+    private TextView numberTypeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,24 +26,19 @@ public class AddNumberActivity extends AppCompatActivity {
 
     public void onClick_saveButton(View v) {
         EditText numberEditText = findViewById(R.id.numberEditText);
-        NumberType numberType = NumberType.valueOf(spinner.getSelectedItem().toString());
+        NumberType numberType = NumberType.valueOf(numberTypeTextView.getText().toString());
         NumberUtil.saveNumber(numberType, numberEditText.getText().toString());
-        Log.i("MFBroadcastReceiver", "savedNumber=[" + numberEditText.getText().toString() + "], numberType=[" + numberType.toString() + "]");
+        Log.i("AddNumberActivity", "savedNumber=[" + numberEditText.getText().toString() + "], numberType=[" + numberType.toString() + "]");
+        Toast.makeText(getBaseContext(),"Number [" + numberEditText.getText().toString() + "] of type ["
+                + numberType.toString() + "] was saved.",Toast.LENGTH_LONG).show();
         finish();
     }
 
-    public void onClick_backButton(View v) {
-        Log.i("MFBroadcastReceiver", "back button was clicked");
-        finish();
-    }
 
     public void initData() {
-        spinner = findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddNumberActivity.this,
-                android.R.layout.simple_list_item_1,
-                Arrays.asList(NumberType.TO_NUMBER.toString(), NumberType.FROM_NUMBER.toString()));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        Intent intent = getIntent();
+        numberTypeTextView = findViewById(R.id.numberTypeTextView);
+        numberTypeTextView.setText(intent.getExtras().getString(NumberType.class.getName()));
 
     }
 
