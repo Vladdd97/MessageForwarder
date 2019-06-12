@@ -27,7 +27,7 @@ public class MFBroadcastReceiver extends BroadcastReceiver {
                 boolean isFromNumbers = false;
                 List<String> fromNumbers = NumberUtil.getNumbers(NumberType.FROM_NUMBER);
                 String from = smsMessage.getOriginatingAddress();
-                String message = "Message is redirected from: "+from + ".\nMessage body: " + smsMessage.getMessageBody();
+                String message = "Message body: " + smsMessage.getMessageBody() + "\nMessage is redirected from: "+from;
                 Log.i("MFBroadcastReceiver", "received message=[" + smsMessage.getMessageBody() + "], from=[" + from + "]");
 
 

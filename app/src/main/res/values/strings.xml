@@ -9,6 +9,7 @@
     <string name="saveButton">save</string>
     <string name="defaultText">defaultText</string>
     <string name="infoText">Type the number</string>
+    <string name="deleteNumberText">Delete number</string>
 
 
 </resources>
